@@ -15,6 +15,12 @@ F_CREATE=0
 PKG_TMP=/tmp/.diffapt_tmp
 >$PKG_TMP
 
+function cancel() {
+	[[ -f $PKG_TMP ]] && rm $PKG_TMP
+	exit
+}
+trap cancel INT
+
 function create_new_list() {
 	dpkg --list | tail -n+6 | while read i; do
 		PKG_STR=`echo $i | cut -f 2 -d ' '`
